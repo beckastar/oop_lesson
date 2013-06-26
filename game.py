@@ -44,7 +44,7 @@ class Character(GameElement):
 
 class Gem(GameElement):
     IMAGE = "BlueGem"
-     def interact(self, player):
+    def interact(self, player):
         player.inventory.append(self)
         GAME_BOARD.draw_msg("You just acquired a gem! You have %d items!"%(len(player.inventory)))
 
@@ -121,14 +121,30 @@ def keyboard_handler():
         direction = "right"
 
     if direction:
-        #here's a direction; act on it
+        #Take keyboard input
+        #test to see if coordinate is in the gameboard grid
+        #else 
         next_location = PLAYER.next_pos(direction)
         #where we go next is the function next_pos called on player with the direction as param. 
         next_x = next_location[0]
         #next x coordinate is the first item in next_location
         next_y = next_location[1]
         #next y coordinate is the second item in next_location
+        
 
+        #testing deletion
+
+        if next_x >= GAME_WIDTH or next_x<0:
+            GAME_BOARD.draw_msg("Das is verboten")
+            return
+             #existing_el = GAME_BOARD.get_el(next_x, next_y)
+        if next_y >= GAME_WIDTH or next_y<0:
+            GAME_BOARD.draw_msg("Das is verboten")            
+            return
+            #existing_el = GAME_BOARD.get_el(next_x, next_y)
+
+        #########
+        
         existing_el = GAME_BOARD.get_el(next_x, next_y)
         if existing_el:
             existing_el.interact(PLAYER)
@@ -136,6 +152,12 @@ def keyboard_handler():
         if existing_el is None or not existing_el.SOLID:
             GAME_BOARD.del_el(PLAYER.x, PLAYER.y)
             GAME_BOARD.set_el(next_x, next_y, PLAYER)
+        #     except 
+        #         if next_x >= GAME_WIDTH or next_x < 0
+        #     except 
+        #         if next_y >= GAME_HEIGHT or next_y < 0
+        # #if next position is out of range of board
+        #game board = game board
 
 
 
